@@ -1,0 +1,60 @@
+CRUD APP with Authentication
+
+This app is all about learning and implementing the nest features. I have made this app using nestjs and POSTGRESQL as database. In this app user can Create an user and store to db, get all users from db, get a single user based on id from db, uppdate the user, delete the user from database. I have also implemented login functionality to the user , if the user is present in db only then he can login to the database.
+
+Once he/she logs in then the user gets a unique access token, by this token he / she can go to the route which requires an authorization.In this backend app i have just displayed an text in that route. How to handle with this app.
+
+Note, to ensure the security of the user we are not storing the password of the user as it provided by user, we are hashing it so that no one will get to know about the password of the user.
+
+
+--> Below are the HTTP requests to work with the app from client side 
+
+01. To Create a User in DB :- 
+        POST --> http://localhost:3001/user
+        Body --> send a raw json body in below format 
+                    {
+                        "name" : "name",
+                        "email" : "email@gmail.com",
+                        "password" : "pass@123"
+                    }
+
+02. To get all users from db
+        GET --> http://localhost:3001/user
+
+
+03. To get the user from its id 
+        GET --> http://localhost:3001/user/:ID
+
+
+04. To Delete the user from db by using its id
+        DELETE --> http://localhost:3001/user/:ID
+
+05. To update the user in db
+        PATCH --> http://localhost:3001/user/:ID
+        BODY --> send a raw UPDATED json body in below format 
+                    {
+                        "name" : "updated name",
+                        "email" : "updatedemail@gmail.com",
+                        "password" : "updatedpass@123"
+                    }
+
+06. To login the user 
+        POST --> http://localhost:3001/auth/login
+        BODY --> send a raw LOGIN json body in below format 
+                    {
+                       "email": "kkk@gmail.com",
+                        "password" : "kkk@123"
+                    }
+
+After login the user, u will get the access token, u have to pass that toke into Authorization in header as Bearer token otherwise u will not be able to access the protected route.
+
+
+Access Token should look like this {eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imtra0BnbWFpbC5jb20iLCJzdWIiOjcsImlhdCI6MTcwMjQ3MDk1NCwiZXhwIjoxNzAyNDcxNTU0fQ.4lXkbzQC2D5Y5_8Ho2VDRp15p1HVzzXd9AWF12AKHi0}
+
+The Access Token is valid only upto 10 mins. So after 10 mins u have too login again
+
+07. To access the protected route (only for authorized person)
+        GET -->  http://localhost:3001/profile
+        Headers --> 
+                Key :- Authorization
+                Value :-Bearer Access-Token
